@@ -1,5 +1,7 @@
 from fastapi import FastAPI
 
+from routers.main_routers import router
+
 from dotenv import load_dotenv
 
 
@@ -7,11 +9,15 @@ import uvicorn
 import os
 
 
-load_dotenv
+load_dotenv()
 
 
 app = FastAPI()
 
 
+app.include_router(router)
+
+
 if __name__ == "__main__":
-    uvicorn.run("main:app", port=os.getenv("PORT"), log_level=os.getenv("LOG_INFO"))
+    uvicorn.run("main:app", port=7979, log_level="info")
+    #Чтобы запустить используйте команду "uv run uvicorn main:app --reload"
