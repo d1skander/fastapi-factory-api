@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 
-from routers.main_routers import router
+from routers.main_routers import router as main_routers
 
 from dotenv import load_dotenv
 
@@ -15,7 +15,7 @@ load_dotenv()
 app = FastAPI()
 
 
-app.include_router(router)
+app.include_router(main_routers)
 
 
 if __name__ == "__main__":
