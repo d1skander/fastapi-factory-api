@@ -28,3 +28,4 @@ class Worker(Base):
     name: Mapped[str] = mapped_column(String(50), nullable=False)
     surname: Mapped[str] = mapped_column(String(50), nullable=False)
     grades: Mapped[str] = mapped_column(ENUM(FactoryRank, create_type=False), nullable=False, default=FactoryRank.RANK_1_2)
+    password: Mapped[str] = mapped_column(String(8))

@@ -1,8 +1,13 @@
 from sqlalchemy import create_engine
+from sqlalchemy.orm import sessionmaker
 
 from dotenv import load_dotenv
 
 from database.models.main_models import Base
+
+from typing import Annotated
+
+from fastapi import Depends
 
 
 import os
@@ -15,6 +20,12 @@ SQLALCHEMY_DATABASE_URL = f"postgresql://{os.getenv("USER_DB")}:{os.getenv("PASS
 
 
 engine = create_engine(SQLALCHEMY_DATABASE_URL)
+SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
+
+
+def get_db():
+    with SessionLocal() as db:
+        yield db
 
 
 def create_db():

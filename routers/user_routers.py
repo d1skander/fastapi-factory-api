@@ -1,14 +1,24 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, Depends
+
+from sqlalchemy import select
+from sqlalchemy.orm import Session
 
 from shemas.user_shemas import Worker as WorkerShemas
+
+from database.models.main_models import Worker as WorkerModel
+from database.settings import get_db
 
 
 router = APIRouter(prefix="/users", tags=["Пользователи(Дополнительные роутеры)"])
 
 
 @router.post("/registration")
-def registration_user(shema: WorkerShemas):
-    return True
+def registration_user(shema: WorkerShemas,
+                      db: Session = Depends(get_db)):
+    data = shema.model_dump()
+    new_worker = WorkerModel(**data)
+    db.add(new_worker)
+    db.commit()
 
 
 @router.post("/auth")
