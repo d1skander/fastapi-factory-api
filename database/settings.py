@@ -16,7 +16,7 @@ import os
 load_dotenv()
 
 
-SQLALCHEMY_DATABASE_URL = f"postgresql://{os.getenv("USER_DB")}:{os.getenv("PASSWORD_DB")}@{os.getenv("HOST_DB")}:{os.getenv("PORT_DB")}/{os.getenv("NAME_DB")}"
+SQLALCHEMY_DATABASE_URL = f"postgresql+psycopg2://{os.getenv("USER_DB")}:{os.getenv("PASSWORD_DB")}@{os.getenv("HOST_DB")}:{os.getenv("PORT_DB")}/{os.getenv("NAME_DB")}"
 
 
 engine = create_engine(SQLALCHEMY_DATABASE_URL)

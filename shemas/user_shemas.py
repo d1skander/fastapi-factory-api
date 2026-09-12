@@ -6,11 +6,10 @@ from shemas.main_shemas import FactoryRank
 
 
 class Worker(BaseModel):
-    username: str | None #Думаю сделать так чтобы не обязательно указывать
     name: str = Field(max_length=50)
     surname: str = Field(max_length=50)
     password: str = Field(max_length=20, min_length=8)
-    password_confirm: str
+    password_confirm: str = Field(exclude=True)
     grades: FactoryRank
 
     @model_validator(mode='after')
@@ -21,5 +20,5 @@ class Worker(BaseModel):
 
 
 class WorkerAuth(Worker):
-    username: str
+    id: str
     password: str
