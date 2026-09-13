@@ -10,8 +10,6 @@ class BoilerStatus(str ,Enum):
     READY_FOR_SHIPMENT = "Ready_for_shipment"
 
 
-from enum import Enum
-
 class FactoryRank(str, Enum):
     # === РАБОЧИЕ СТРОКИ (РАЗРЯДЫ ПО ЕТКС) ===
     RANK_1_2 = "Rank_1_2"          # Рабочий 1-2 разряда (Ученик / Низшая квалификация)
@@ -30,9 +28,6 @@ class FactoryRank(str, Enum):
     SHOP_CHIEF = "Shop_chief"      # Начальник цеха / Начальник отдела
     CHIEF_ENGINEER = "Chief_eng"   # Главный инженер (Технический директор завода)
     FACTORY_DIRECTOR = "Director"  # Генеральный директор завода
-
-
-
 
 
 class Order(BaseModel):

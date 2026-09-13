@@ -1,10 +1,10 @@
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
-from sqlalchemy import UUID, Column, String, Numeric, CheckConstraint, ForeignKey
+from sqlalchemy import UUID, String, Numeric, CheckConstraint, ForeignKey
 from sqlalchemy.dialects.postgresql import ENUM
 
 from decimal import Decimal
 
-from shemas.main_shemas import BoilerStatus, FactoryRank
+from schemas.main_shemas import BoilerStatus, FactoryRank
 
 
 import uuid

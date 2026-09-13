@@ -1,6 +1,6 @@
 from fastapi import APIRouter
 
-from shemas.main_shemas import Order as OrderShema
+from schemas.main_shemas import Order as OrderShema
 
 
 router = APIRouter(prefix='/orders', tags=["Заказы(Основные роутеры)"])

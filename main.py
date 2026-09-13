@@ -24,8 +24,10 @@ app.include_router(main_routers)
 app.include_router(user_routers)
 
 
+admin_setup(app, engine)
+
+
 if __name__ == "__main__":
     create_db()
-    admin_setup(app, engine)
     uvicorn.run("main:app", port=7979, log_level="info")
     #Чтобы запустить используйте команду "uv run uvicorn main:app --reload"
