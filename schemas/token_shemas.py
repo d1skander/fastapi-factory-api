@@ -29,4 +29,4 @@ class Token(BaseModel):
 
 
 class TokenData(BaseModel):
-    id: str | None = None
+    verification_id: str | None = None

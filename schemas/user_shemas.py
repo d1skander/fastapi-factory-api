@@ -20,5 +20,5 @@ class Worker(BaseModel):
 
 
 class WorkerAuth(Worker):
-    id: str
+    verification_id: str
     password: str
