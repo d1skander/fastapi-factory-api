@@ -7,7 +7,7 @@ from schemas.user_shemas import Worker as WorkerShemas
 from database.models.main_models import Worker as WorkerModel
 from database.settings import get_db
 
-from core.password_security import password_hash
+from core.user.password_security import password_hash
 
 
 router = APIRouter(prefix="/workers", tags=["Пользователи(Дополнительные роутеры)"])
