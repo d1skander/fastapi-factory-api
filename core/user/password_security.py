@@ -1,9 +1,9 @@
 import bcrypt
 
 
-def password_hash(password: str) -> bytes:
+def password_hash(password: str) -> str:
     try:
-        hashed = bcrypt.hashpw(password.encode("utf-8"), bcrypt.gensalt())
+        hashed = bcrypt.hashpw(password.encode("utf-8"), bcrypt.gensalt()).decode("utf-8")
         return hashed
     except TypeError as e:
         raise e

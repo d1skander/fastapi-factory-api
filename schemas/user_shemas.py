@@ -20,5 +20,6 @@ class Worker(BaseModel):
 
 
 class WorkerAuth(Worker):
-    verification_id: str
-    password: str
+    name: str = Field(max_length=50)
+    surname: str = Field(max_length=50)
+    grades: FactoryRank

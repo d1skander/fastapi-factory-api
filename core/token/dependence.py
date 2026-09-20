@@ -34,11 +34,11 @@ async def get_current_user(token: Annotated[str, Depends(oauth2_sheme)], session
         token_data = TokenData(verification_id=verification_id)
     except jwt.InvalidTokenError:
         raise credentials_exception
-    user = select(WorkerModel).where(token_data.verification_id == WorkerModel.verification_id)
-    result = session.execute(user).first()
+    stmt = select(WorkerModel).where(WorkerModel.verification_id == verification_id)
+    result = session.execute(stmt).scalar_one_or_none
     if result is None:
         raise credentials_exception
-    return result.username
+    return result
 
 
 async def get_current_active_user(current: Annotated[WorkerModel, Depends(get_current_user)]):
