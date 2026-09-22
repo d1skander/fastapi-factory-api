@@ -10,6 +10,11 @@ class BoilerStatus(str ,Enum):
     READY_FOR_SHIPMENT = "Ready_for_shipment"
 
 
+class BoilerWorkState(str ,Enum):
+    WORKING = "Working"
+    BROKEN = "Broken"
+
+
 class FactoryRank(str, Enum):
     # === РАБОЧИЕ СТРОКИ (РАЗРЯДЫ ПО ЕТКС) ===
     RANK_1_2 = "Rank_1_2"          # Рабочий 1-2 разряда (Ученик / Низшая квалификация)

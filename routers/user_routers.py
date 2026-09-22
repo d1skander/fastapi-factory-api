@@ -68,7 +68,7 @@ def auth_user(form_data: Annotated[OAuth2PasswordRequestForm, Depends()],
             )
             return TokenShemas(access_token=access_token, token_type="bearer")
         else:
-            return HTTPException(status_code=status.HTTP_404_NOT_FOUND, 
+            raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, 
                                                  detail={"message": "Пользователь не найден."})
     else:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, 
