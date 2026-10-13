@@ -9,5 +9,7 @@ import uuid
 class Boiler(BaseModel):
     id: uuid.UUID
     name: str
+    power: int
     work_state: BoilerWorkState
-    who_work: str
+    order_id: uuid.UUID
+    worker: str

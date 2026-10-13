@@ -36,6 +36,5 @@ class FactoryRank(str, Enum):
 
 
 class Order(BaseModel):
-    name: str
+    text_order: str
     status: BoilerStatus
-    power: int

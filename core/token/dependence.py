@@ -27,7 +27,7 @@ async def get_current_user(token: Annotated[str, Depends(oauth2_sheme)], session
                                           detail="Не удалось проверить учетные данные",
                                           headers={"WWW-Authenticate": "Bearer"})
     try:
-        payload = jwt.decode(token, os.getenv("OAUTH_SECRET_KEY"), algorithms=os.getenv("OAUTH_ALGORITHM"))
+        payload = jwt.decode(token, os.getenv("SECRET_KEY"), algorithms=os.getenv("ALGORITHM"))
         verification_id = payload.get("sub")
         if verification_id is None:
             raise credentials_exception

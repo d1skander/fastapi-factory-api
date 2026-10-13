@@ -33,7 +33,7 @@ load_dotenv()
 ACCESS_TOKEN_EXPIRE_MINUTES = 30
 
 
-router = APIRouter(prefix="/workers", tags=["Пользователи(Дополнительные роутеры)"])
+router = APIRouter(prefix="/workers", tags=["Рабочие(Дополнительные роутеры)"])
 
 
 @router.post("/worker")
