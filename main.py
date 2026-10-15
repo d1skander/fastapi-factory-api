@@ -2,6 +2,7 @@ from fastapi import FastAPI
 
 from routers.main_routers import router as main_routers
 from routers.user_routers import router as user_routers
+from routers.boiler_routers import router as boiler_routers
 
 from dotenv import load_dotenv
 
@@ -22,6 +23,7 @@ app = FastAPI()
 
 app.include_router(main_routers)
 app.include_router(user_routers)
+app.include_router(boiler_routers)
 
 
 admin_setup(app, engine)
