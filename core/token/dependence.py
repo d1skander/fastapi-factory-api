@@ -28,17 +28,17 @@ async def get_current_user(token: Annotated[str, Depends(oauth2_sheme)], session
                                           headers={"WWW-Authenticate": "Bearer"})
     try:
         payload = jwt.decode(token, os.getenv("SECRET_KEY"), algorithms=os.getenv("ALGORITHM"))
-        verification_id = payload.get("sub")
-        if verification_id is None:
+        id = payload.get("sub")
+        if id is None:
             raise credentials_exception
-        token_data = TokenData(verification_id=verification_id)
+        token_data = TokenData(id=id)
     except jwt.InvalidTokenError:
         raise credentials_exception
-    stmt = select(WorkerModel).where(WorkerModel.verification_id == verification_id)
-    result = session.execute(stmt).scalar_one_or_none
+    stmt = select(WorkerModel).where(WorkerModel.id == token_data.id)
+    result = session.execute(stmt).scalar_one_or_none()
     if result is None:
         raise credentials_exception
-    return result
+    return result.id
 
 
 async def get_current_active_user(current: Annotated[WorkerModel, Depends(get_current_user)]):

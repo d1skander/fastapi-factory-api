@@ -29,5 +29,5 @@ admin_setup(app, engine)
 
 if __name__ == "__main__":
     create_db()
-    uvicorn.run("main:app", port=7979, log_level="info")
+    uvicorn.run("main:app", port=7979, log_level="info", reload=True)
     #Чтобы запустить используйте команду "uv run uvicorn main:app --reload"

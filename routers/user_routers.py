@@ -59,7 +59,6 @@ def auth_user(form_data: Annotated[OAuth2PasswordRequestForm, Depends()],
     stmt = select(WorkerModel).where(WorkerModel.verification_id == verification_id)
     result = db.execute(stmt).scalar_one_or_none()
     if not result is None:
-        print(form_data.password, result.password)
         check = password_check(form_data.password, result.password)
         if check:
             access_token_expires = timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)

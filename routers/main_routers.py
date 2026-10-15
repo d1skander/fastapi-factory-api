@@ -9,26 +9,34 @@ from schemas.user_shemas import WorkerAuth as WorkerAuthShemas
 
 from database.models.main_models import Order as OrderModel
 from database.models.main_models import Boiler as BoilerModel
+from database.models.main_models import Worker as WorkerModel
 
 from database.settings import get_db
 
 from core.token.dependence import get_current_active_user
 
+from typing import Annotated
+
 
 import uuid
+import json
 
 
 router = APIRouter(prefix='/orders', tags=["Заказы(Основные роутеры)"])
 
 
 @router.post("/orders")
-def manager_order(response: Response,
+def manager_order(current: Annotated[str, Depends(get_current_active_user)],
+                  response: Response,
                   shema: OrderShema,
-                  db: Session = Depends(get_db),
-                  current: WorkerAuthShemas = Depends(get_current_active_user),):
+                  db: Session = Depends(get_db)):
     correct_grades = ["Director", "Foreman", "Shop_chief", "Chief_eng"]
-    print(correct_grades, current.grades)
-    if current.grades in correct_grades:
+    stmt = select(WorkerModel).where(WorkerModel.id == current)
+    worker = db.execute(stmt).scalar_one_or_none()
+    if worker is None:
+        response.status_code = 404
+        return {"status": response}
+    if worker.grades in correct_grades:
         order = OrderModel(id=None, 
                            text_order=shema.text_order,
                            status=shema.status)
@@ -45,12 +53,14 @@ def manager_order(response: Response,
 def get_all_info_order(db: Session = Depends(get_db)):
     stmt = select(OrderModel)
     order = db.execute(stmt).all()
+    result = [tuple(ord) for ord in order]
+    json_result = json.dumps(result, default=str)
     if order is None:
         return Response(status_code=404)
     else:
-        return JSONResponse(content=[x.encode('utf-8') for x in order], status_code=302)
+        return JSONResponse(content=json_result, status_code=302)
 
-
+#данная функция еще в доработке
 @router.get("/orders/{order_id}")
 def get_info_order(order_id: uuid.UUID,
                    db: Session = Depends(get_db)):
