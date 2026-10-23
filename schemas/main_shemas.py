@@ -1,4 +1,4 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, ConfigDict
 
 from enum import Enum
 
@@ -36,5 +36,6 @@ class FactoryRank(str, Enum):
 
 
 class Order(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
     text_order: str
     status: BoilerStatus

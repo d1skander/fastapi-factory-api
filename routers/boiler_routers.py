@@ -43,11 +43,11 @@ def get_boiler(responce: Response,
     responce.status_code = 304
     return Response(content={boiler}, status_code=responce.status_code)
 
-#Не закончена
+
 @router.post("/boilers")
-def create_boiler(current: Annotated[str, Depends(get_current_active_user)],
+def create_boiler(responce: Response,
+                  current: Annotated[str, Depends(get_current_active_user)],
                   shema: BoilerShema,
-                  response: Response,
                   db: Session = Depends(get_db)):
     correct_grades = ["Director", "Foreman", "Shop_chief", "Chief_eng"]
     stmt_worker = select(WorkerModel).where(WorkerModel.id == current)
@@ -56,4 +56,15 @@ def create_boiler(current: Annotated[str, Depends(get_current_active_user)],
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, 
                                     detail={"message": "Не найдено."})
     if worker.grades in correct_grades:
-        stmt_boiler = BoilerModel()
+        create_boiler = BoilerModel(id=shema.id, 
+                                  name=shema.name, 
+                                  power=shema.power,
+                                  work_state=shema.work_state,
+                                  )
+        db.add(create_boiler)
+        db.commit()
+        responce.status_code = 304
+        return Response(status_code=responce.status_code)
+    else:
+        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, 
+                            detail={"message": "Недоступно."})

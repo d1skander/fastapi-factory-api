@@ -1,8 +1,9 @@
 from fastapi import APIRouter, Depends, status, HTTPException
 from fastapi.security import OAuth2PasswordRequestForm
+from fastapi.responses import Response
 
 from sqlalchemy.orm import Session
-from sqlalchemy import select
+from sqlalchemy import select, delete, update
 
 from typing import Annotated
 
@@ -11,6 +12,7 @@ from datetime import timedelta
 from schemas.user_shemas import Worker as WorkerShemas
 from schemas.user_shemas import WorkerAuth as WorkerAuthShemas
 from schemas.token_shemas import Token as TokenShemas
+from schemas.main_shemas import FactoryRank
 
 from database.models.main_models import Worker as WorkerModel
 from database.settings import get_db
@@ -23,8 +25,7 @@ from core.token.dependence import get_current_active_user
 from dotenv import load_dotenv
 
 
-import os
-import json
+import uuid
 
 
 load_dotenv()
@@ -50,6 +51,26 @@ def registration_user(shema: WorkerShemas,
 @router.get("/worker", response_model=WorkerAuthShemas)
 def get_worker(current: WorkerAuthShemas = Depends(get_current_active_user)):
     return current
+
+
+@router.patch("/worker/{id}/{new_rank}")
+def edit_role_worker(id: uuid.UUID, 
+                     new_rank: FactoryRank,
+                     db: Session = Depends(get_db),
+                     current: WorkerAuthShemas = Depends(get_current_active_user)):
+    sender = db.execute(select(WorkerModel).where(WorkerModel.id == current)).scalar_one_or_none()
+    if sender is None:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, 
+                                                         detail={"message": "Пользователь не найден."})
+    else:
+        if sender.grades in ["Director", "Foreman", "Shop_chief", "Chief_eng"]:
+            new_worker = update(WorkerModel).where(WorkerModel.id == id).values(grades=new_rank)
+            db.execute(new_worker)
+            db.commit()
+            return Response(status_code=status.HTTP_202_ACCEPTED)
+        else:
+            raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, 
+                                                                     detail={"message": "Роль не подходит."})
 
 
 @router.post("/auth")

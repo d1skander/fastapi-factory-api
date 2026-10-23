@@ -5,6 +5,9 @@ from database.models.main_models import Worker as WorkerModel
 from database.settings import engine
 
 
+import uuid
+
+
 def get_verification_id(get_id: str) -> str:
     stmt = select(WorkerModel).where(WorkerModel.verification_id == get_id)
     with Session(engine) as session:

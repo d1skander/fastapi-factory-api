@@ -11,5 +11,5 @@ class Boiler(BaseModel):
     name: str
     power: int
     work_state: BoilerWorkState
-    order_id: uuid.UUID
-    worker: str
+    #order_id: uuid.UUID
+    #worker: str
